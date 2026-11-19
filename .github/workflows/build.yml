@@ -1,0 +1,18 @@
+name: Build Ora2Pg Image
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and Save Docker Image
+        run: |
+          docker build -t ora2pg-sql:latest .
+          docker save ora2pg-sql:latest -o ora2pg-sql.tar
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ora2pg-image
+          path: ora2pg-sql.tar
